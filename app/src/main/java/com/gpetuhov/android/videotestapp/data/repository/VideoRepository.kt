@@ -8,10 +8,11 @@ class VideoRepository(private val videoApi: VideoApi) {
     suspend fun getVideoList(): List<VideoInfo> {
         val videoMetaData = videoApi.getMetaData()
 
-        val first = videoMetaData.results?.videoUrl1
-
-        // TODO
-
-        return emptyList()
+        return listOf(
+            VideoInfo(videoMetaData.results?.videoUrl1 ?: ""),
+            VideoInfo(videoMetaData.results?.videoUrl2 ?: ""),
+            VideoInfo(videoMetaData.results?.videoUrl3 ?: ""),
+            VideoInfo(videoMetaData.results?.videoUrl4 ?: ""),
+        )
     }
 }
