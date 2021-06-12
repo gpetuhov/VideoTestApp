@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.gpetuhov.android.videotestapp.App
 import com.gpetuhov.android.videotestapp.R
 import com.gpetuhov.android.videotestapp.domain.usecase.VideoUseCase
+import com.gpetuhov.android.videotestapp.utils.Logger
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         // TODO: remove this
         GlobalScope.launch {
-            videoUseCase.getVideoList()
+            val videoList = videoUseCase.getVideoList()
+            Logger.log("Video",videoList.toString())
         }
     }
 }
