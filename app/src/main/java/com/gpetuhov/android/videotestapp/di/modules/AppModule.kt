@@ -13,14 +13,14 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesContext(): Context = App.application.applicationContext
+    fun provideContext(): Context = App.application.applicationContext
 
     @Provides
     @Singleton
-    fun providesVideoRepository() = VideoRepository()
+    fun provideVideoRepository() = VideoRepository()
 
     @Provides
     @Singleton
-    fun providesVideoUseCase(videoRepository: VideoRepository) =
+    fun provideVideoUseCase(videoRepository: VideoRepository) =
         VideoUseCase(videoRepository)
 }

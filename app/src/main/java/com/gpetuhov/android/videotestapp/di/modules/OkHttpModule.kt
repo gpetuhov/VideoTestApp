@@ -13,7 +13,7 @@ class OkHttpModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(loggingInterceptor)
             .connectTimeout(AppConstants.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
@@ -23,7 +23,7 @@ class OkHttpModule {
 
     @Provides
     @Singleton
-    fun providesLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BASIC
         }
