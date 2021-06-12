@@ -19,7 +19,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideVideoRepository() = VideoRepository()
+    fun provideVideoRepository(videoApi: VideoApi) =
+        VideoRepository(videoApi)
 
     @Provides
     @Singleton

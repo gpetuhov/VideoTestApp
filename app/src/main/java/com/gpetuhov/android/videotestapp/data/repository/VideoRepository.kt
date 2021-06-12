@@ -1,13 +1,14 @@
 package com.gpetuhov.android.videotestapp.data.repository
 
+import com.gpetuhov.android.videotestapp.data.source.remote.api.VideoApi
 import com.gpetuhov.android.videotestapp.domain.model.VideoInfo
-import kotlinx.coroutines.delay
 
-class VideoRepository {
+class VideoRepository(private val videoApi: VideoApi) {
 
     suspend fun getVideoList(): List<VideoInfo> {
+        val videoMetaData = videoApi.getMetaData()
+
         // TODO
-        delay(5000)
 
         return emptyList()
     }
