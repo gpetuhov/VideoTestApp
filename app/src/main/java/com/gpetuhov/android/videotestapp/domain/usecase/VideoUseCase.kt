@@ -5,8 +5,8 @@ import com.gpetuhov.android.videotestapp.domain.model.VideoInfo
 
 class VideoUseCase(private val videoRepository: VideoRepository) {
 
-    fun getVideoList(): List<VideoInfo> {
+    suspend fun getVideoList(): List<VideoInfo> {
         // TODO
-        return emptyList()
+        return videoRepository.getVideoList()
     }
 }
