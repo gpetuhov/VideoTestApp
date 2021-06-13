@@ -22,7 +22,18 @@ fun PlayerView.create(
     val mediaItem = MediaItem.fromUri(url)
     player.setMediaItem(mediaItem)
 
-    player.addListener(object : Player.Listener {
+    player.addListener(getPlayerListener(onError))
+
+    player.playWhenReady = true
+    player.prepare()
+
+    return player
+}
+
+private fun PlayerView.getPlayerListener(
+    onError: (String) -> Unit
+): Player.Listener {
+    return object : Player.Listener {
         override fun onPlayerError(error: ExoPlaybackException) {
             val errorMessageId = when (error.type) {
                 ExoPlaybackException.TYPE_SOURCE -> {
@@ -43,10 +54,5 @@ fun PlayerView.create(
 
             onError(context.getString(errorMessageId))
         }
-    })
-
-    player.playWhenReady = true
-    player.prepare()
-
-    return player
+    }
 }
