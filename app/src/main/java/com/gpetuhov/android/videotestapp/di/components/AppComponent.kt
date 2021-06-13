@@ -3,7 +3,7 @@ package com.gpetuhov.android.videotestapp.di.components
 import com.gpetuhov.android.videotestapp.di.modules.AppModule
 import com.gpetuhov.android.videotestapp.di.modules.NetModule
 import com.gpetuhov.android.videotestapp.di.modules.OkHttpModule
-import com.gpetuhov.android.videotestapp.presentation.MainActivity
+import com.gpetuhov.android.videotestapp.presentation.video.VideoFragment
 import com.gpetuhov.android.videotestapp.utils.video.UnsafeSimpleExoPlayerBuilder
 import dagger.Component
 import javax.inject.Singleton
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
     // TODO: remove this
-    fun inject(mainActivity: MainActivity)
+    fun inject(videoFragment: VideoFragment)
 
     fun inject(unsafeSimpleExoPlayerBuilder: UnsafeSimpleExoPlayerBuilder)
 }
