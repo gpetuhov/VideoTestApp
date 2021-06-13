@@ -37,14 +37,15 @@ class MainActivity : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 player = player_view.create(
-                    url = videoList[0].url
+                    url = videoList[0].url,
+                    onError = { message -> Logger.error("Video", message) }
                 )
             }
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         player?.release()
         player = null
     }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">VideoTestApp</string>
+
+    <string name="file_not_found">Файл не найден</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="player_error">Ошибка воспроизведения</string>
 </resources>
