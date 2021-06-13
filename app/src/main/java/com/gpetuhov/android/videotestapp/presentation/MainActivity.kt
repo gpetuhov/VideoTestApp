@@ -31,17 +31,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // TODO: move this into ViewModel
-        GlobalScope.launch {
-            val videoList = videoUseCase.getVideoList()
-            Logger.log("Video",videoList.toString())
-
-            withContext(Dispatchers.Main) {
-                player = player_view.create(
-                    url = videoList[0].url,
-                    onError = { message -> Logger.error("Video", message) }
-                )
-            }
-        }
+//        GlobalScope.launch {
+//            val videoList = videoUseCase.getVideoList()
+//            Logger.log("Video",videoList.toString())
+//
+//            withContext(Dispatchers.Main) {
+//                player = player_view.create(
+//                    url = videoList[0].url,
+//                    onError = { message -> Logger.error("Video", message) }
+//                )
+//            }
+//        }
     }
 
     override fun onStop() {
