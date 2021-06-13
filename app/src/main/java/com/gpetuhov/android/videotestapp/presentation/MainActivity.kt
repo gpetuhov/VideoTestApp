@@ -2,13 +2,12 @@ package com.gpetuhov.android.videotestapp.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.gpetuhov.android.videotestapp.App
 import com.gpetuhov.android.videotestapp.R
 import com.gpetuhov.android.videotestapp.domain.usecase.VideoUseCase
 import com.gpetuhov.android.videotestapp.utils.Logger
-import com.gpetuhov.android.videotestapp.utils.video.UnsafeSimpleExoPlayerBuilder
+import com.gpetuhov.android.videotestapp.utils.extensions.create
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -37,23 +36,9 @@ class MainActivity : AppCompatActivity() {
             Logger.log("Video",videoList.toString())
 
             withContext(Dispatchers.Main) {
-//                player = player_view.create(
-//                    url = videoList[0].url,
-//                    isLoop = true
-//                )
-
-                player = UnsafeSimpleExoPlayerBuilder(this@MainActivity)
-                    .build()
-
-                player_view.player = player
-
-                val mediaItem = MediaItem.fromUri(videoList[1].url)
-                player?.setMediaItem(mediaItem)
-
-                player?.playWhenReady = true
-                player?.prepare()
-
-
+                player = player_view.create(
+                    url = videoList[1].url
+                )
             }
         }
     }
