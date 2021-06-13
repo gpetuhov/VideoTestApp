@@ -5,8 +5,10 @@ import com.gpetuhov.android.videotestapp.domain.model.VideoInfo
 
 class VideoUseCase(private val videoRepository: VideoRepository) {
 
-    suspend fun getVideoList(): List<VideoInfo> {
-        // TODO
-        return videoRepository.getVideoList()
+    suspend fun getVideoList(
+        onSuccess: suspend (List<VideoInfo>) -> Unit,
+        onError: suspend () -> Unit
+    ) {
+        videoRepository.getVideoList(onSuccess, onError)
     }
 }

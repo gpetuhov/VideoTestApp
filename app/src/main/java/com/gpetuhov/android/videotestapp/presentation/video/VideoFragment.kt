@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.gpetuhov.android.videotestapp.R
 import com.gpetuhov.android.videotestapp.domain.model.VideoInfo
+import com.gpetuhov.android.videotestapp.utils.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_video.*
 
 class VideoFragment : Fragment() {
@@ -30,13 +31,12 @@ class VideoFragment : Fragment() {
 
         // TODO: show metadata loading progress ???
         // TODO: show metadata load error ???
-
-        // TODO: show each video loading progress
     }
 
     private fun subscribeViewModel() {
         viewModel.loadVideoList()
         viewModel.videoList.observe(viewLifecycleOwner, { videoList -> updateVideoListUI(videoList) })
+        viewModel.loadError.observe(viewLifecycleOwner, { isError -> updateErrorUI(isError) })
     }
 
     private fun initVideoList() {
@@ -49,6 +49,18 @@ class VideoFragment : Fragment() {
     }
 
     private fun updateVideoListUI(videoList: List<VideoInfo>) {
+        showVideoList(false)
         videoAdapter.submitList(videoList)
+    }
+
+    private fun updateErrorUI(isError: Boolean) {
+        if (isError) {
+            showVideoList(true)
+        }
+    }
+
+    private fun showVideoList(isError: Boolean) {
+        video_list.setVisible(!isError)
+        video_list_error.setVisible(isError)
     }
 }

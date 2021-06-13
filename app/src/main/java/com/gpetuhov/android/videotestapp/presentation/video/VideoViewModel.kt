@@ -17,11 +17,11 @@ class VideoViewModel : ViewModel() {
 
     var isLoading: LiveData<Boolean>
     var videoList: LiveData<List<VideoInfo>>
-    var loadError: LiveData<Int>
+    var loadError: LiveData<Boolean>
 
     private val _isLoading = MutableLiveData<Boolean>()
     private val _videoList = MutableLiveData<List<VideoInfo>>()
-    private val _loadError = MutableLiveData<Int>()
+    private val _loadError = MutableLiveData<Boolean>()
 
     private var loadJob: Job? = null
 
@@ -47,16 +47,29 @@ class VideoViewModel : ViewModel() {
         }
 
         loadJob = viewModelScope.launch(Dispatchers.IO) {
-            val videoList = videoUseCase.getVideoList()
-            Logger.log("Video", videoList.toString())
-            postVideoList(videoList)
+            videoUseCase.getVideoList(
+                { videoList -> postVideoList(videoList) },
+                { postError() }
+            )
         }
     }
 
+    fun resetError() {
+        _loadError.postValue(false)
+    }
+
     private suspend fun postVideoList(videoList: List<VideoInfo>) {
+        Logger.log("Video", videoList.toString())
+
         withContext(Dispatchers.Main) {
             cachedVideoList = videoList
             _videoList.postValue(videoList)
+        }
+    }
+
+    private suspend fun postError() {
+        withContext(Dispatchers.Main) {
+            _loadError.postValue(true)
         }
     }
 }
