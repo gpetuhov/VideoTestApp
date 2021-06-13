@@ -4,25 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.gpetuhov.android.videotestapp.App
 import com.gpetuhov.android.videotestapp.R
 import com.gpetuhov.android.videotestapp.domain.usecase.VideoUseCase
 import com.gpetuhov.android.videotestapp.utils.Logger
+import com.gpetuhov.android.videotestapp.utils.video.UnsafeSimpleExoPlayerBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     // TODO: remove this
     @Inject lateinit var videoUseCase: VideoUseCase
-    @Inject lateinit var okHttpClient: OkHttpClient
 
     private var player: SimpleExoPlayer? = null
 
@@ -45,10 +42,7 @@ class MainActivity : AppCompatActivity() {
 //                    isLoop = true
 //                )
 
-                val okHttpDataSourceFactory = OkHttpDataSource.Factory(okHttpClient)
-
-                player = SimpleExoPlayer.Builder(this@MainActivity)
-                    .setMediaSourceFactory(DefaultMediaSourceFactory(okHttpDataSourceFactory))
+                player = UnsafeSimpleExoPlayerBuilder(this@MainActivity)
                     .build()
 
                 player_view.player = player
