@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.gpetuhov.android.videotestapp.R
 import com.gpetuhov.android.videotestapp.domain.model.VideoInfo
@@ -42,6 +43,9 @@ class VideoFragment : Fragment() {
         video_list.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         videoAdapter = VideoAdapter()
         video_list.adapter = videoAdapter
+
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(video_list)
     }
 
     private fun updateVideoListUI(videoList: List<VideoInfo>) {
