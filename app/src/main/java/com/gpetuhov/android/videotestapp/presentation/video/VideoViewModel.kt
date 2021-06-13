@@ -46,6 +46,8 @@ class VideoViewModel : ViewModel() {
             return
         }
 
+        postLoading(true)
+
         loadJob = viewModelScope.launch(Dispatchers.IO) {
             videoUseCase.getVideoList(
                 { videoList -> postVideoList(videoList) },
@@ -54,14 +56,15 @@ class VideoViewModel : ViewModel() {
         }
     }
 
-    fun resetError() {
-        _loadError.postValue(false)
-    }
+    fun resetError() = _loadError.postValue(false)
+
+    private fun postLoading(isLoading: Boolean) = _isLoading.postValue(isLoading)
 
     private suspend fun postVideoList(videoList: List<VideoInfo>) {
         Logger.log("Video", videoList.toString())
 
         withContext(Dispatchers.Main) {
+            postLoading(false)
             cachedVideoList = videoList
             _videoList.postValue(videoList)
         }
@@ -69,6 +72,7 @@ class VideoViewModel : ViewModel() {
 
     private suspend fun postError() {
         withContext(Dispatchers.Main) {
+            postLoading(false)
             _loadError.postValue(true)
         }
     }

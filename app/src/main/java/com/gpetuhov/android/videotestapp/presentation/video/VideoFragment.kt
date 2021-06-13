@@ -28,13 +28,11 @@ class VideoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initVideoList()
         subscribeViewModel()
-
-        // TODO: show metadata loading progress ???
-        // TODO: show metadata load error ???
     }
 
     private fun subscribeViewModel() {
         viewModel.loadVideoList()
+        viewModel.isLoading.observe(viewLifecycleOwner, { isLoading -> updateLoadingUI(isLoading) })
         viewModel.videoList.observe(viewLifecycleOwner, { videoList -> updateVideoListUI(videoList) })
         viewModel.loadError.observe(viewLifecycleOwner, { isError -> updateErrorUI(isError) })
     }
@@ -48,6 +46,9 @@ class VideoFragment : Fragment() {
         snapHelper.attachToRecyclerView(video_list)
     }
 
+    private fun updateLoadingUI(isLoading: Boolean) =
+        showProgress(isLoading)
+
     private fun updateVideoListUI(videoList: List<VideoInfo>) {
         showVideoList(false)
         videoAdapter.submitList(videoList)
@@ -56,6 +57,7 @@ class VideoFragment : Fragment() {
     private fun updateErrorUI(isError: Boolean) {
         if (isError) {
             showVideoList(true)
+            viewModel.resetError()
         }
     }
 
@@ -63,4 +65,7 @@ class VideoFragment : Fragment() {
         video_list.setVisible(!isError)
         video_list_error.setVisible(isError)
     }
+
+    private fun showProgress(isVisible: Boolean) =
+        video_list_load_progress.setVisible(isVisible)
 }
