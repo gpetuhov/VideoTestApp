@@ -30,26 +30,38 @@ class VideoAdapter : ListAdapter<VideoInfo, VideoAdapter.VideoViewHolder>(VideoD
         private var player: SimpleExoPlayer? = null
 
         fun bind(videoInfo: VideoInfo) {
-            hideError()
+            onBindStart()
 
             player?.release()
 
             player = itemView.player_view.create(
                 url = videoInfo.url,
-                onError = { message -> showError(message) }
+                onVideoReady = { onSuccess() },
+                onError = { message -> onError(message) }
             )
         }
 
-        private fun hideError() = showHideError(false)
-
-        private fun showError(message: String) {
-            showHideError(true)
-            itemView.player_error.text = message
+        private fun onBindStart() {
+            showPlayer(false)
+            showError(false)
         }
 
-        private fun showHideError(isError: Boolean) {
-            itemView.player_view.setVisible(!isError)
-            itemView.player_error.setVisible(isError)
+        private fun onSuccess() {
+            showPlayer(true)
+            showError(false)
+        }
+
+        private fun onError(message: String) {
+            showPlayer(false)
+            showError(true, message)
+        }
+
+        private fun showPlayer(isVisible: Boolean) =
+            itemView.player_view.setVisible(isVisible)
+
+        private fun showError(isVisible: Boolean, message: String = "") {
+            itemView.player_error.setVisible(isVisible)
+            itemView.player_error.text = message
         }
     }
 }

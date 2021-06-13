@@ -14,6 +14,7 @@ fun PlayerView.create(
     url: String,
     isLoop: Boolean = false,
     playWhenReady: Boolean = false,
+    onVideoReady: () -> Unit,
     onError: (String) -> Unit
 ): SimpleExoPlayer {
     val player = UnsafeSimpleExoPlayerBuilder(context)
@@ -24,7 +25,7 @@ fun PlayerView.create(
     val mediaItem = MediaItem.fromUri(url)
     player.setMediaItem(mediaItem)
 
-    player.addListener(getPlayerListener(onError))
+    player.addListener(getPlayerListener(onVideoReady, onError))
 
     player.playWhenReady = playWhenReady
 
@@ -38,9 +39,16 @@ fun PlayerView.create(
 }
 
 private fun PlayerView.getPlayerListener(
+    onVideoReady: () -> Unit,
     onError: (String) -> Unit
 ): Player.Listener {
     return object : Player.Listener {
+        override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            if (playbackState == Player.STATE_READY) {
+                onVideoReady()
+            }
+        }
+
         override fun onPlayerError(error: ExoPlaybackException) {
             val errorMessageId = when (error.type) {
                 ExoPlaybackException.TYPE_SOURCE -> {
