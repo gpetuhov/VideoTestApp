@@ -12,7 +12,7 @@ import com.gpetuhov.android.videotestapp.utils.Logger
 import com.gpetuhov.android.videotestapp.utils.extensions.create
 import kotlinx.android.synthetic.main.item_video.view.*
 
-class VideoAdapter() : ListAdapter<VideoInfo, VideoAdapter.VideoViewHolder>(VideoDiffCallback()) {
+class VideoAdapter : ListAdapter<VideoInfo, VideoAdapter.VideoViewHolder>(VideoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

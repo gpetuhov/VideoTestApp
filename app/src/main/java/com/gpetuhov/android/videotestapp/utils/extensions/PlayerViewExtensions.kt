@@ -25,6 +25,7 @@ fun PlayerView.create(
     player.addListener(getPlayerListener(onError))
 
     player.playWhenReady = true
+    player.repeatMode = Player.REPEAT_MODE_ALL
     player.prepare()
 
     return player

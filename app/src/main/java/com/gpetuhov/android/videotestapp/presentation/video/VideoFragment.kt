@@ -6,18 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.exoplayer2.SimpleExoPlayer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gpetuhov.android.videotestapp.R
 import com.gpetuhov.android.videotestapp.domain.model.VideoInfo
-import com.gpetuhov.android.videotestapp.utils.Logger
-import com.gpetuhov.android.videotestapp.utils.extensions.create
 import kotlinx.android.synthetic.main.fragment_video.*
 
 class VideoFragment : Fragment() {
 
-    private val viewModel by viewModels<VideoViewModel>()
+    private lateinit var videoAdapter: VideoAdapter
 
-    private var player: SimpleExoPlayer? = null
+    private val viewModel by viewModels<VideoViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_video, container, false)
@@ -25,6 +24,7 @@ class VideoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initVideoList()
         subscribeViewModel()
 
         // TODO: show metadata loading progress
@@ -33,21 +33,18 @@ class VideoFragment : Fragment() {
         // TODO: show player errors
     }
 
-    override fun onStop() {
-        super.onStop()
-        player?.release()
-        player = null
-    }
-
     private fun subscribeViewModel() {
         viewModel.loadVideoList()
-        viewModel.videoList.observe(viewLifecycleOwner, { videoList -> initVideoList(videoList) })
+        viewModel.videoList.observe(viewLifecycleOwner, { videoList -> updateVideoListUI(videoList) })
     }
 
-    private fun initVideoList(videoList: List<VideoInfo>) {
-        player = player_view.create(
-            url = videoList[1].url,
-            onError = { message -> Logger.error("Video", message) }
-        )
+    private fun initVideoList() {
+        video_list.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        videoAdapter = VideoAdapter()
+        video_list.adapter = videoAdapter
+    }
+
+    private fun updateVideoListUI(videoList: List<VideoInfo>) {
+        videoAdapter.submitList(videoList)
     }
 }
