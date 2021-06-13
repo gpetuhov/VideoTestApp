@@ -30,7 +30,6 @@ class VideoFragment : Fragment() {
 
         // TODO: show metadata loading progress
         // TODO: show metadata load error
-        // TODO: add video list
         // TODO: show player errors
     }
 

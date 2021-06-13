@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.gpetuhov.android.videotestapp.R
 import com.gpetuhov.android.videotestapp.domain.model.VideoInfo
-import com.gpetuhov.android.videotestapp.utils.Logger
 import com.gpetuhov.android.videotestapp.utils.extensions.create
+import com.gpetuhov.android.videotestapp.utils.extensions.setVisible
 import kotlinx.android.synthetic.main.item_video.view.*
 
 class VideoAdapter : ListAdapter<VideoInfo, VideoAdapter.VideoViewHolder>(VideoDiffCallback()) {
@@ -30,12 +30,26 @@ class VideoAdapter : ListAdapter<VideoInfo, VideoAdapter.VideoViewHolder>(VideoD
         private var player: SimpleExoPlayer? = null
 
         fun bind(videoInfo: VideoInfo) {
+            hideError()
+
             player?.release()
 
             player = itemView.player_view.create(
                 url = videoInfo.url,
-                onError = { message -> Logger.error("Video", message) }
+                onError = { message -> showError(message) }
             )
+        }
+
+        private fun hideError() = showHideError(false)
+
+        private fun showError(message: String) {
+            showHideError(true)
+            itemView.player_error.text = message
+        }
+
+        private fun showHideError(isError: Boolean) {
+            itemView.player_view.setVisible(!isError)
+            itemView.player_error.setVisible(isError)
         }
     }
 }
