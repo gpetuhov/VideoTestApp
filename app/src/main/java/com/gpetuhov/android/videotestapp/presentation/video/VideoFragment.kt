@@ -29,7 +29,6 @@ class VideoFragment : Fragment() {
 
         // TODO: show metadata loading progress
         // TODO: show metadata load error
-        // TODO: do not reload meta data on screen rotation
         // TODO: add video list
         // TODO: show player errors
     }
