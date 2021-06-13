@@ -12,6 +12,8 @@ import java.net.HttpURLConnection
 
 fun PlayerView.create(
     url: String,
+    isLoop: Boolean = false,
+    playWhenReady: Boolean = false,
     onError: (String) -> Unit
 ): SimpleExoPlayer {
     val player = UnsafeSimpleExoPlayerBuilder(context)
@@ -24,8 +26,12 @@ fun PlayerView.create(
 
     player.addListener(getPlayerListener(onError))
 
-    player.playWhenReady = true
-    player.repeatMode = Player.REPEAT_MODE_ALL
+    player.playWhenReady = playWhenReady
+
+    if (isLoop) {
+        player.repeatMode = Player.REPEAT_MODE_ALL
+    }
+
     player.prepare()
 
     return player
