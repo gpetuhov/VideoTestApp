@@ -42,16 +42,19 @@ class VideoAdapter : ListAdapter<VideoInfo, VideoAdapter.VideoViewHolder>(VideoD
         }
 
         private fun onBindStart() {
+            showProgress(true)
             showPlayer(false)
             showError(false)
         }
 
         private fun onSuccess() {
+            showProgress(false)
             showPlayer(true)
             showError(false)
         }
 
         private fun onError(message: String) {
+            showProgress(false)
             showPlayer(false)
             showError(true, message)
         }
@@ -63,5 +66,8 @@ class VideoAdapter : ListAdapter<VideoInfo, VideoAdapter.VideoViewHolder>(VideoD
             itemView.player_error.setVisible(isVisible)
             itemView.player_error.text = message
         }
+
+        private fun showProgress(isVisible: Boolean) =
+            itemView.player_load_progress.setVisible(isVisible)
     }
 }

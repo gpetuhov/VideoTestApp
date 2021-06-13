@@ -28,9 +28,10 @@ class VideoFragment : Fragment() {
         initVideoList()
         subscribeViewModel()
 
-        // TODO: show metadata loading progress
-        // TODO: show metadata load error
-        // TODO: show player errors
+        // TODO: show metadata loading progress ???
+        // TODO: show metadata load error ???
+
+        // TODO: show each video loading progress
     }
 
     private fun subscribeViewModel() {
