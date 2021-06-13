@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 player = player_view.create(
-                    url = videoList[1].url
+                    url = videoList[0].url
                 )
             }
         }
