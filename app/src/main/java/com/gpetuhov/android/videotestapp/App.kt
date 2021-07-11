@@ -18,6 +18,7 @@ class App: Application() {
         application = this
         appComponent = DaggerAppComponent.builder().build()
 
+        // Init logger
         Logger.init(application.applicationContext)
     }
 }
